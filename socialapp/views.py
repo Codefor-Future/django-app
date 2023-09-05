@@ -1,13 +1,30 @@
-from django.shortcuts import render
-from .models import Profile
+from django.shortcuts import render,redirect
+from .models import Profile,Rweet
+from .forms import RweetForm
 
 # Create your views here.
+
+
 def dashboard(request):
-    return render(request, 'socialapp/dashboard.html')
+    form = RweetForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            rweet = form.save(commit=False)
+            rweet.user = request.user
+            rweet.save()
+            return redirect("socialapp:dashboard")
+        
+    followed_rweets = Rweet.objects.filter(
+        user__profile__in=request.user.profile.follows.all()
+    ).order_by("-created_at")
+
+    return render(request, 'socialapp/dashboard.html',{"form": form,"rweets": followed_rweets})
+
 
 def profile_list(request):
     profiles = Profile.objects.exclude(user=request.user)
     return render(request, "socialapp/profile_list.html", {"profiles": profiles})
+
 
 def profile_page(request, pk):
     if not hasattr(request.user, 'profile'):
