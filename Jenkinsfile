@@ -12,7 +12,7 @@ pipeline{
 
     stage('Build Docker image from Django project') {
             steps {
-                sh 'docker build -t django-app .'
+                sh 'docker build -t django-app:latest .'
                 // withCredentials([string(credentialsId: 'DOCKERHUB_PASSWORD', variable: 'DOCKERHUB_PASSWORD')]) {
                 //     sh 'docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD'
                 // }
@@ -24,7 +24,7 @@ stage("Push to Dockerhub") {
     steps {
        script {
          echo "Pushing the image to docker hub"
-         def localImage = "django-app"
+         def localImage = "django-app:latest"
       
          // pcheajra is my username in the DockerHub
          // You can use your username
