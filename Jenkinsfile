@@ -39,4 +39,5 @@ stage("Push to Dockerhub") {
        }
     }
    }
+    }
 }
