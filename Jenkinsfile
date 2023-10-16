@@ -19,11 +19,11 @@ pipeline{
                 // sh 'docker tag $DOCKER_IMAGE_NAME $DOCKER_HUB_REPO'
                 // sh 'docker push $DOCKER_HUB_REPO'
 
-                def localImage = "django-app:latest"
-                def repositoryName = "abhinavparakkal/${localImage}"
+                // def localImage = "django-app:latest"
+                // def repositoryName = "abhinavparakkal/${localImage}"
 
-                sh 'docker tag ${localImage} ${repositoryName}'
-                sh 'docker push $repositoryName'
+                sh 'docker tag django-app:latest abhinavparakkal/django-app:latest'
+                sh 'docker push abhinavparakkal/django-app:latest'
             }
         } // Success
 // stage("Push to Dockerhub") {
