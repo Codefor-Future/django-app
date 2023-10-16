@@ -13,9 +13,8 @@ pipeline{
     stage('Build Docker image from Django project') {
             steps {
                 sh 'docker build -t django-app:latest .'
-                withCredentials([$class: 'UsernamePasswordMultiBinding', credentialsId: 'DockerHub',
-                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']) {
-                    sh 'docker login -u $USERNAME -p $PASSWORD'
+                withCredentials([usernamePassword(credentialsId:'DockerHub', usernameVariable:'DOCKER_USERNAME', passwordVariable:'DOCKER_PASSWORD')]) {
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
                 }   
                 // sh 'docker tag $DOCKER_IMAGE_NAME $DOCKER_HUB_REPO'
                 // sh 'docker push $DOCKER_HUB_REPO'
